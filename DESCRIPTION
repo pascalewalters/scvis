@@ -1,0 +1,16 @@
+Package: scvis
+Type: Package
+Title: Run scvis Package
+Version: 0.1.0
+Author: Pascale Walters
+Maintainer: Pascale Walters <pwalters@bccrc.ca>
+Description: Use the scvis python package with SingleCellExperiments 
+Encoding: UTF-8
+LazyData: true
+Imports:
+    reticulate,
+    SingleCellExperiment,
+    yaml
+SystemRequirements: 
+    python3,
+    tensorflow
