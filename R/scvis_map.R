@@ -60,12 +60,9 @@ scvis_map <- function(sce,
   map_args <- reticulate::dict(data_matrix_file = data_matrix_file,
                                config_file = config_file,
                                out_dir = output_dir,
-                               data_label_file = NULL,
+                               data_label_file = data_label_file,
                                pretrained_model_file = checkpoint,
-                               normalize = NULL,
-                               verbose = FALSE,
-                               verbose_interval = 50,
-                               show_plot = FALSE)
+                               normalize = NULL)
 
   map(map_args)
 

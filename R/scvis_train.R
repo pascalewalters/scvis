@@ -60,10 +60,7 @@ scvis_train <- function(sce,
                                  out_dir = output_dir,
                                  data_label_file = data_label_file,
                                  pretrained_model_file = NULL,
-                                 normalize = normalize,
-                                 verbose = FALSE,
-                                 verbose_interval = 50,
-                                 show_plot = FALSE)
+                                 normalize = normalize)
 
   train(train_args)
 }

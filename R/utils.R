@@ -1,6 +1,6 @@
 get_checkpoint <- function(output_dir) {
   checkpoint_file <- file.path(output_dir, "model", "checkpoint")
-  if (!file.exists(data_label_file)) {
+  if (!file.exists(checkpoint_file)) {
     stop("Checkpoint file does not exist. Ensure that scvis_train has run and the output directory is correct.")
   }
 

@@ -28,12 +28,7 @@ def train(args):
     name += '_iter_' + str(max_iter)
     res = model.train(data=train_data,
                       batch_size=hyperparameter['batch_size'],
-                      verbose=args['verbose'],
-                      verbose_interval=args['verbose_interval'],
-                      show_plot=args['show_plot'],
-                      plot_dir=os.path.join(out_dir, (name+"_intermediate_result")),
-                      # max_iter=max_iter,
-                      max_iter=50,
+                      max_iter=max_iter,
                       pretrained_model=args['pretrained_model_file'])
     model.set_normalizer(normalizer)
 
@@ -303,8 +298,7 @@ class SCVIS(object):
         return elbo, tsne_cost
 
     def train(self, data, max_iter=1000, batch_size=None,
-              pretrained_model=None, verbose=True, verbose_interval=50,
-              show_plot=True, plot_dir='./img/'):
+              pretrained_model=None, verbose=True, verbose_interval=50):
 
         max_iter = max_iter
         batch_size = batch_size or self.hyperparameter['batch_size']
