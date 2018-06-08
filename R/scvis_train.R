@@ -38,8 +38,6 @@ scvis_train <- function(sce,
   data_matrix_file <- tempfile(pattern = "data_matrix_file", fileext = "tsv")
   write.table(counts, file = data_matrix_file, sep = "\t")
 
-  curr_path <- get_current_directory()
-
   if (!is.null(config_file) && !file.exists(config_file)) {
     stop(paste("Configuration file", config_file, "does not exist."))
   }
@@ -48,10 +46,12 @@ scvis_train <- function(sce,
     stop(paste("Data label file", data_label_file, "does not exist."))
   }
 
-  # source_script()
-
   package_dir <- find.package("scvis")
-  script <- file.path(package_dir, "python", "lib", "scvis", "run_noplot.py")
+  script <- file.path(package_dir, "python", "run.py")
+
+  if (is.null(config_file)) {
+    config_file <- file.path(package_dir, "python", "config", "model_config.yaml")
+  }
 
   reticulate::source_python(script)
 
@@ -63,8 +63,7 @@ scvis_train <- function(sce,
                                  normalize = normalize,
                                  verbose = FALSE,
                                  verbose_interval = 50,
-                                 show_plot = FALSE,
-                                 curr_path = curr_path)
+                                 show_plot = FALSE)
 
   train(train_args)
 }

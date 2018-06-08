@@ -1,3 +1,15 @@
+#' Add new data to an existing embedding. Must run scvis_train first.
+#'
+#' @param sce SingleCellExperiment object
+#' @param output_dir Path to the directory for outputs
+#' @param sce_assay The assay of \code{sce} used to obtain the expression values for the calculations
+#' @param use_reducedDim Whether reducedDim should be used instead of an assay
+#' @param reducedDim_name The name of the reducedDim that should be used when \code{use_reducedDim = TRUE}
+#' @param config_file Path to the configuration file (default: scvis/inst/python/lib/scvis/config/model_config.yaml)
+#' @param data_label_file Path to a one column file (with column header) that provides the corresponding cluster information for each data point, just used for coloring scatter plots (optional)
+#' @param normalize Positive float number for normalization of expression values (default: maximum expression value)
+#' @export
+
 scvis_map <- function(sce,
                       output_dir,
                       sce_assay = "logcounts",
@@ -26,8 +38,6 @@ scvis_map <- function(sce,
   data_matrix_file <- tempfile(pattern = "data_matrix_file", fileext = "tsv")
   write.table(counts, file = data_matrix_file, sep = "\t")
 
-  curr_path <- get_current_directory()
-
   if (!is.null(config_file) && !file.exists(config_file)) {
     stop(paste("Configuration file", config_file, "does not exist."))
   }
@@ -38,23 +48,24 @@ scvis_map <- function(sce,
 
   checkpoint <- get_checkpoint(output_dir)
 
-  # source_script()
-
   package_dir <- find.package("scvis")
-  script <- file.path(package_dir, "python", "lib", "scvis", "run_noplot.py")
+  script <- file.path(package_dir, "python", "run.py")
 
   reticulate::source_python(script)
 
+  if (is.null(config_file)) {
+    config_file <- file.path(package_dir, "python", "config", "model_config.yaml")
+  }
+
   map_args <- reticulate::dict(data_matrix_file = data_matrix_file,
-                               config_file = NULL,
+                               config_file = config_file,
                                out_dir = output_dir,
                                data_label_file = NULL,
                                pretrained_model_file = checkpoint,
                                normalize = NULL,
                                verbose = FALSE,
                                verbose_interval = 50,
-                               show_plot = FALSE,
-                               curr_path = curr_path)
+                               show_plot = FALSE)
 
   map(map_args)
 
@@ -64,9 +75,8 @@ scvis_map <- function(sce,
     stop("Multiple reduced dimension output files in the output directory.")
   }
 
-  z_coordinates <- read.table(file = reducedDim_file, sep = "\t")
-  # FIXME
-  # SingleCellExperiment::reducedDim(sce, "scvis") <- z_coordinates
+  z_coordinates <- as.matrix(read.table(file = reducedDim_file, sep = "\t", header = TRUE, row.names = 1))
+  SingleCellExperiment::reducedDim(sce, "scvis") <- z_coordinates
 
   sce
 }
