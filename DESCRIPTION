@@ -1,17 +1,21 @@
 Package: scvis
 Type: Package
-Title: Run scvis Package
-Version: 0.1.0
-Author: Pascale Walters
-Maintainer: Pascale Walters <pwalters@bccrc.ca>
-Description: Use the scvis python package with SingleCellExperiments 
-Encoding: UTF-8
+Title: Dimensionality reduction of single cell data
+Version: 1.0.0
+Authors@R: c(person("Pascale", "Walters", email = "pwalters@bccrc.ca", role = c("aut", "cre")), person("Jiarui", "Ding",  role = "aut"))
+URL: https://github.com/pascalewalters/scvis
+BugReports: https://github.com/pascalewalters/scvis/issues
+Description: A package to perform dimensional reduction for single cell data that is robust to the number of cells. It uses a probablistic parametric mapping function to add new data points to the model.
+License: Apache License (>= 2.0)
 LazyData: true
 Imports:
     reticulate,
     SingleCellExperiment,
     yaml
-SystemRequirements: 
+SystemRequirements:
     python3,
     tensorflow
 RoxygenNote: 6.0.1
+Suggests: knitr,
+    rmarkdown
+VignetteBuilder: knitr

@@ -1,0 +1,72 @@
+---
+title: "scRNA-seq Dimension Reduction with scvis"
+author: "Pascale Walters"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+# Introduction to scvis
+
+```{r}
+library(scvis)
+library(scater)
+```
+
+`scvis` trains a probablistic parametric mapping for dimensionality reduction.
+
+## Example Data
+
+We'll use an example `SingleCellExperiment` object from cellassign. This object has 500 cells and 1000 genes.
+
+```{r}
+data("example_sce", package = "scvis")
+example_sce
+```
+
+The counts assay contains the expressions of each gene. We'll use this for dimensionality reduction.
+To reduce the noise in the data, we'll reduce to 100 dimensions. 
+
+```{r}
+example_sce <- runPCA(example_sce, ncomponents = 100, exprs_values = "counts")
+```
+
+## Training the Model
+
+Now we can run scvis on the `SingleCellExperiment` object.
+To create a new embedding, we'll run `scvis_train` on `example_sce`.
+
+```{r}
+scvis_train(example_sce, "output/", use_reducedDim = TRUE, reducedDim_name = "PCA")
+```
+
+This function performs dimension reduction on the results from `runPCA`. 
+It writes the results to a .csv file in `output/`, as well as the log likelihoods, elbo results and t-SNE costs.
+The reduced dimensions are also added to the `scvis` slot in the `ReducedDimensions` of `example_sce`.
+
+The trained model is saved in `output/model/`.
+
+## Adding New Data to an Existing Embedding
+
+Suppose we had an existing trained model saved in `output/model/` and we wanted to add more data to it.
+We can use `scvis_map` with a `SingleCellExperiment` object.
+
+```{r}
+output_dir <- file.path(find.package("scvis"), "vignette")
+
+scvis_map(example_sce, "/home/rstudio/output1")
+```
+
+This adds the data from the `counts` assay of `example_sce` to the model that is stored in `output/model/`.
+It writes the results to a .csv file in `output/`, as well as the log likelihoods.
+The reduced dimensions are also added to the `scvis` slot in the `ReducedDimensions` of `example_sce`.
