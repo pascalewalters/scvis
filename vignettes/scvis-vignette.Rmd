@@ -27,18 +27,18 @@ library(scater)
 
 ## Example Data
 
-We'll use an example `SingleCellExperiment` object from cellassign. This object has 500 cells and 1000 genes.
+We'll use an example `SingleCellExperiment` object from ascites data. This object has 500 cells and 5000 genes.
 
 ```{r}
 data("example_sce", package = "scvis")
 example_sce
 ```
 
-The counts assay contains the expressions of each gene. We'll use this for dimensionality reduction.
-To reduce the noise in the data, we'll reduce to 100 dimensions. 
+The `logcounts` assay contains the expressions of each gene. We'll use this for dimensionality reduction.
+To minimize any noise in the data, we'll reduce to 100 dimensions. 
 
 ```{r}
-example_sce <- runPCA(example_sce, ncomponents = 100, exprs_values = "counts")
+example_sce <- runPCA(example_sce, ncomponents = 100)
 ```
 
 ## Training the Model
@@ -61,12 +61,17 @@ The trained model is saved in `output/model/`.
 Suppose we had an existing trained model saved in `output/model/` and we wanted to add more data to it.
 We can use `scvis_map` with a `SingleCellExperiment` object.
 
-```{r}
-output_dir <- file.path(find.package("scvis"), "vignette")
+The data that is added must have the same number of dimensions as the data used to train the model. 
+For example, because we used data that had been reduced to 100 dimensions, we must use data in the `scvis_map` function that also has 100 dimensions.
 
-scvis_map(example_sce, "/home/rstudio/output1")
+```{r}
+output_dir <- file.path(find.package("scvis"), "vignette", "output")
+
+scvis_map(example_sce, output_dir, use_reducedDim = TRUE, reducedDim_name = "PCA")
 ```
 
 This adds the data from the `counts` assay of `example_sce` to the model that is stored in `output/model/`.
 It writes the results to a .csv file in `output/`, as well as the log likelihoods.
 The reduced dimensions are also added to the `scvis` slot in the `ReducedDimensions` of `example_sce`.
+
+
