@@ -74,4 +74,3 @@ This adds the data from the `counts` assay of `example_sce` to the model that is
 It writes the results to a .csv file in `output/`, as well as the log likelihoods.
 The reduced dimensions are also added to the `scvis` slot in the `ReducedDimensions` of `example_sce`.
 
-
