@@ -65,13 +65,21 @@ scvis_train <- function(sce,
   train(train_args)
 
   reducedDim_file <- list.files(output_dir, pattern = "*iter_[0-9]+.tsv$", full.names = TRUE)
+  log_likelihood_file <- list.files(output_dir, pattern = "*iter_[0-9]+_log_likelihood.tsv$", full.names = TRUE)
 
   if (length(reducedDim_file) > 1) {
     stop("Multiple reduced dimension output files in the output directory.")
   }
 
-  z_coordinates <- as.matrix(read.table(file = reducedDim_file, sep = "\t", header = TRUE, row.names = 1))
-  SingleCellExperiment::reducedDim(sce, "scvis") <- z_coordinates
+  if (length(log_likelihood_file) > 1) {
+    stop("Multiple log likelihood output files in the output directory.")
+  }
+
+  reduced_dim <- read.table(file = reducedDim_file, sep = "\t", header = TRUE, row.names = 1)
+  log_likelihood <- read.table(file = log_likelihood_file, sep = "\t", header = TRUE, row.names = 1)
+  reduced_dim$log_likelihood <- log_likelihood$log_likelihood
+
+  SingleCellExperiment::reducedDim(sce, "scvis") <- as.matrix(reduced_dim)
 
   sce
 }

@@ -21,6 +21,8 @@ knitr::opts_chunk$set(
 ```{r}
 library(scvis)
 library(scater)
+library(ggplot2)
+library(cowplot)
 ```
 
 `scvis` trains a probablistic parametric mapping for dimensionality reduction.
@@ -47,7 +49,7 @@ Now we can run scvis on the `SingleCellExperiment` object.
 To create a new embedding, we'll run `scvis_train` on `example_sce`.
 
 ```{r}
-scvis_train(example_sce, "output/", use_reducedDim = TRUE, reducedDim_name = "PCA")
+scvis_sce <- scvis_train(example_sce, "output/", use_reducedDim = TRUE, reducedDim_name = "PCA")
 ```
 
 This function performs dimension reduction on the results from `runPCA`. 
@@ -55,6 +57,17 @@ It writes the results to a .csv file in `output/`, as well as the log likelihood
 The reduced dimensions are also added to the `scvis` slot in the `ReducedDimensions` of `example_sce`.
 
 The trained model is saved in `output/model/`.
+
+We can also plot the reduced dimensions:
+
+```{r echo = FALSE, fig.width = 7, fig.height = 7}
+ggplot(data.frame(reducedDim(scvis_sce, "scvis")), aes(z_coordinate_0, z_coordinate_1)) + geom_point(aes(colour = log_likelihood)) + scale_colour_gradient(low = "#132B43", high = "#56B1F7")
+```
+
+Finally, we can plot the elbo and t-SNE costs:
+```{r}
+scvis_plot_obj_func("output/")
+```
 
 ## Adding New Data to an Existing Embedding
 
