@@ -7,6 +7,7 @@ vignette: >
   %\VignetteIndexEntry{scRNA-seq Dimension Reduction with scvis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
+bibliography: refs.ris
 ---
 
 ```{r setup, include = FALSE}
@@ -25,7 +26,7 @@ library(ggplot2)
 library(cowplot)
 ```
 
-`scvis` trains a probablistic parametric mapping for dimensionality reduction.
+`scvis` trains a probablistic parametric mapping for dimensionality reduction, using the method described by @Ding2018.
 
 ## Example Data
 

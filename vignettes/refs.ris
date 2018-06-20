@@ -1,0 +1,17 @@
+TY  - JOUR
+AU  - Ding, Jiarui
+AU  - Condon, Anne
+AU  - Shah, Sohrab P.
+PY  - 2018
+DA  - 2018/05/21
+TI  - Interpretable dimensionality reduction of single cell transcriptome data with deep generative models
+JO  - Nature Communications
+SP  - 2002
+VL  - 9
+IS  - 1
+AB  - Single-cell RNA-sequencing has great potential to discover cell types, identify cell states, trace development lineages, and reconstruct the spatial organization of cells. However, dimension reduction to interpret structure in single-cell sequencing data remains a challenge. Existing algorithms are either not able to uncover the clustering structures in the data or lose global information such as groups of clusters that are close to each other. We present a robust statistical model, scvis, to capture and visualize the low-dimensional structures in single-cell gene expression data. Simulation results demonstrate that low-dimensional representations learned by scvis preserve both the local and global neighbor structures in the data. In addition, scvis is robust to the number of data points and learns a probabilistic parametric mapping function to add new data points to an existing embedding. We then use scvis to analyze four single-cell RNA-sequencing datasets, exemplifying interpretable two-dimensional representations of the high-dimensional single-cell RNA-sequencing data.
+SN  - 2041-1723
+UR  - https://doi.org/10.1038/s41467-018-04368-5
+DO  - 10.1038/s41467-018-04368-5
+ID  - Ding2018
+ER  -
