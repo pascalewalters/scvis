@@ -50,6 +50,7 @@ To create a new embedding, we'll run `scvis_train` on `example_sce`.
 
 ```{r}
 scvis_sce <- scvis_train(example_sce, "output/", use_reducedDim = TRUE, reducedDim_name = "PCA")
+scvis_sce
 ```
 
 This function performs dimension reduction on the results from `runPCA`. 
