@@ -2,9 +2,9 @@
 title: "scRNA-seq Dimension Reduction with scvis"
 author: "Pascale Walters"
 date: "`r Sys.Date()`"
-output: rmarkdown::html_vignette
+output: rmarkdown::html_document
 vignette: >
-  %\VignetteIndexEntry{Vignette Title}
+  %\VignetteIndexEntry{scRNA-seq Dimension Reduction with scvis}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 
 # Introduction to scvis
 
-```{r}
+```{r, message = FALSE}
 library(scvis)
 library(scater)
 library(ggplot2)
@@ -65,8 +65,14 @@ ggplot(data.frame(reducedDim(scvis_sce, "scvis")), aes(z_coordinate_0, z_coordin
 ```
 
 Finally, we can plot the elbo and t-SNE costs:
-```{r}
-scvis_plot_obj_func("output/")
+```{r, fig.width = 7, fig.height = 7}
+obj <- scvis_plot_obj_func("output/")
+
+p1 <- ggplot(obj, aes(iteration, elbo)) + geom_line()
+p2 <- ggplot(obj, aes(iteration, tsne_cost)) + geom_line()
+p3 <- ggplot(obj, aes(iteration, avg_elbo)) + geom_line()
+
+plot_grid(p1, p2, p3)
 ```
 
 ## Adding New Data to an Existing Embedding

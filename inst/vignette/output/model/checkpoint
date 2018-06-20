@@ -1,2 +1,0 @@
-model_checkpoint_path: "/home/rstudio/output4/model/perplexity_10_regularizer_0.001_batch_size_500_learning_rate_0.01_latent_dimension_2_activation_ELU_seed_1_iter_3000.ckpt"
-all_model_checkpoint_paths: "/home/rstudio/output4/model/perplexity_10_regularizer_0.001_batch_size_500_learning_rate_0.01_latent_dimension_2_activation_ELU_seed_1_iter_3000.ckpt"
